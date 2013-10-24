@@ -1,11 +1,7 @@
 ﻿//Wikipedia API
-
-
-
-
-
 $(function () {
-
+ 
+    //Attaching Juqery UI autocompelete to text box
     $("#txt_search").autocomplete({
         source: function (request, response) {
             console.log(request.term);
@@ -23,9 +19,10 @@ $(function () {
             });
         }
     });
+
+    //Add click event to search button
     $("#btn_search").click(function () {
 
-        //Get userID from Cookie
         var search_value = $("#txt_search").val();
 
         if (search_value) {
@@ -41,26 +38,6 @@ $(function () {
 
 });
 
-function wiki_api(search_term) {
-
-    
-    //script.src = 'http://en.wikipedia.org/w/api.php?format=json&action=query&titles=Thomas%20Jefferson&prop=revisions&rvprop=content&callback=box';
-    //script.src = 'http://en.wikipedia.org/w/api.php?format=json&action=query&pageid=29922&prop=revisions&rvprop=content&callback=box';
-    //script.src = 'http://en.wikipedia.org/w/api.php?format=json&action=query&prop=info&pageids=29922&inprop=url&callback=box';
-    //script.src = 'http://en.wikipedia.org/w/api.php?format=json&action=query&prop=image&pageids=29922&inprop=url&callback=box';
-    //script.src = 'http://en.wikipedia.org/w/api.php?action=query&titles=Albert%20Einstein&prop=images&format=json&callback=box';
-    //script.src = 'http://en.wikipedia.org/w/api.php?action=query&titles=File:Albert_Einstein_(Nobel).png&prop=imageinfo&iiprop=url&format=json&callback=box'
-    //script.src = 'http://en.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=&titles=Thomas%20Jefferson&callback=box'
-    
-    
-
-
-
-
-
-
-
-};
 function parse_data(data) {
 
 
@@ -78,7 +55,6 @@ function parse_data(data) {
     //Get Type
     var page_type
 
-
     var el = $('<div></div>');
     var jHTML = $('<div/>').append(raw['*'])
 
@@ -88,8 +64,6 @@ function parse_data(data) {
 
     var picture = jHTML.find('.vcard img:first').attr('src');
 
-
-
     var PageData = new Object();
     PageData.title = en.title;
     PageData.description = tmp.textContent || tmp.innerText || ""; ;
@@ -97,15 +71,9 @@ function parse_data(data) {
     PageData.year_start = 1969;
     PageData.year_end = 1969;
 
-
-
-    //Create Front End
+    //Change front end with new values
     $('.page-header').html('<h1>' + PageData.title + '</h1> <br/> ' + PageData.description + '')
     $(".jumbotron").attr("style", "background: url(" + picture + "); -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover;");
     $('#profile_image').attr("src", picture); 
-
-
-
-
 
 };
