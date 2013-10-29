@@ -1,8 +1,8 @@
 ﻿//Wikipedia API
 $(function () {
 
+    //Add Jquery UI Autocomplete & Handle Enter Key
     var search_box = $("#txt_search");
-
     search_box.autocomplete({
         source: function (request, response) {
             console.log(request.term);
@@ -45,13 +45,14 @@ $(function () {
 });
 
 
+
+
+
 function get_data(search_term) {
 
 
     if (search_term) {
-
-
-        
+      
         var script = document.createElement('script');
         script.type = 'text/javascript';
         script.src = 'http://en.wikipedia.org/w/api.php?format=json&action=query&titles=' + search_term + '&prop=revisions&rvprop=content&rvsection=0&rvparse=1&callback=parse_data'
@@ -62,7 +63,11 @@ function get_data(search_term) {
 };
 function parse_data(data) {
 
-
+    function parse_bits() { 
+    
+    
+    
+    
     var PageData = new Object();
     PageData.id = "";
     PageData.title = "";
@@ -157,8 +162,13 @@ function parse_data(data) {
     PageData.population_value = PageData.population;
     PageData.population = Math.round(((Number(PageData.population) / 7046000000) * 1) * 100)
 
+    return PageData
 
-    //Change front end with new values
+};
+    var PageData = parse_bits();
+
+
+    //Your custom code:
     $('#page_title').html(PageData.title)
     $(".jumbotron").attr("style", "background: url(" + PageData.picture + "); -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover;");
     $('#profile_image').attr("src", PageData.picture);
@@ -169,6 +179,7 @@ function parse_data(data) {
     $('#population_number').html(PageData.population_value);
     $('#description_header').html('Description');
 };
+
 
 function loading() {
 
