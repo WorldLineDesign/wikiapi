@@ -1,8 +1,9 @@
 ﻿//Wikipedia API
 $(function () {
- 
-    //Attaching Juqery UI autocompelete to text box
-    $("#txt_search").autocomplete({
+
+    var search_box = $("#txt_search");
+
+    search_box.autocomplete({
         source: function (request, response) {
             console.log(request.term);
             $.ajax({
@@ -18,27 +19,49 @@ $(function () {
                 }
             });
         }
-    });
+    })
+   .keyup(function (event) {
+       if (event.keyCode == 13) {
+
+           if (search_box.val()) {
+               loading();
+               get_data(search_box.val());
+           }
+       }
+
+   });
 
     //Add click event to search button
     $("#btn_search").click(function () {
 
         var search_value = $("#txt_search").val();
-
         if (search_value) {
-
-            var script = document.createElement('script');
-            script.type = 'text/javascript';
-            script.src = 'http://en.wikipedia.org/w/api.php?format=json&action=query&titles=' + search_value + '&prop=revisions&rvprop=content&rvsection=0&rvparse=1&callback=parse_data'
-            document.body.appendChild(script);
-
+            loading();
+            get_data(search_value);
         }
 
     });
 
 });
 
+
+function get_data(search_term) {
+
+
+    if (search_term) {
+
+
+        
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'http://en.wikipedia.org/w/api.php?format=json&action=query&titles=' + search_term + '&prop=revisions&rvprop=content&rvsection=0&rvparse=1&callback=parse_data'
+        document.body.appendChild(script);
+
+    }
+
+};
 function parse_data(data) {
+
 
     var PageData = new Object();
     PageData.id = "";
@@ -52,7 +75,8 @@ function parse_data(data) {
     PageData.population_value = "";
     PageData.total_deaths = "";
     PageData.total = "";
-
+    
+    
     //Break down returned object
     var entry = data.query.pages
 
@@ -107,9 +131,15 @@ function parse_data(data) {
     };
     if (!PageData.population) {
         PageData.population = jHTML.find('th:contains(Population)').parent().next('tr').find('td:contains(estimate)').next('td').html()//.next('td').html();
-    }
+    };
     if (!PageData.population) {
         PageData.population = jHTML.find('th:contains(Population)').parent().next('tr').next('tr').find('td:contains(estimate)').next('td').html()//.next('td').html();
+    };
+    if (!PageData.population) {
+        PageData.population = jHTML.find('th:contains(Population)').parent().next('tr').find('th:contains(Total)').next('td').html()//.next('td').html();
+    }
+    if (!PageData.population) {
+        PageData.population = jHTML.find('th:contains(Population)').parent().next('tr').next('tr').find('td:contains(Total)').next('td').html()//.next('td').html();
     }
 
     var tmp3 = document.createElement("DIV");
@@ -124,20 +154,27 @@ function parse_data(data) {
     }
 
     PageData.population = PageData.population.replace(' ', '').replace(',', '').replace(',', '').replace(',', '')
+    PageData.population_value = PageData.population;
     PageData.population = Math.round(((Number(PageData.population) / 7046000000) * 1) * 100)
 
 
-
-
-
-
-
-
     //Change front end with new values
-    $('.page-header').html('<h1>' + PageData.title + '</h1> <br/> ' + PageData.description + '')
+    $('#page_title').html(PageData.title)
     $(".jumbotron").attr("style", "background: url(" + PageData.picture + "); -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover;");
     $('#profile_image').attr("src", PageData.picture);
     $('#Profile').attr("class", "panel-collapse");
     $('#page_date').html(PageData.date);
     $('#page_population_progressbar').css('width', PageData.population)
+    $('#Description').html(PageData.description);
+    $('#population_number').html(PageData.population_value);
+    $('#description_header').html('Description');
 };
+
+function loading() {
+
+    $('#page_title').html('<img src="http://www.calgaryparking.com/html/themes/CPA_09/images/progress_bar/loading_animation.gif" /> Loading')
+    $('#Profile').attr("class", "panel-collapse collapse");
+    $('#Description').attr("class", "panel-collapse collapse")
+    $('#description_header').html('');
+}
+

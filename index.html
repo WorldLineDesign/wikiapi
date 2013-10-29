@@ -10,18 +10,21 @@
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
     <script src="WikiAPI.js" type="text/javascript"></script>
 
-
-  
+    <style>
+    .ui-autocomplete {
+        margin-top: 155px;
+        margin-left: 62px;
+    }
+    </style>
 
 
 </head>
 <body>
-    <div class="jumbotron" style="background: url(http://blog.ketchum.com/wp-content/uploads/2013/09/wikipedia.png) no-repeat center center; -webkit-background-size: cover; background-size: cover;">
+    <div class="jumbotron" style="background: url(http://upload.wikimedia.org/wikipedia/commons/e/e0/BlankMap-World-1985.png) no-repeat center center; -webkit-background-size: cover; background-size: cover;">
         <div class="container">
             <h2>
                 <span style="background-color: rgba(255, 255, 255, 0.5);">Wikipedia API Sample</span></h2>
             <p>
-            
             </p>
             <p>
                 <input type="text" style="width: 485px; height: 45px;" name="txt_search" id="txt_search" placeholder=" Search" class="text ui-widget-content ui-corner-all" />
@@ -29,35 +32,50 @@
         </div>
     </div>
     <div class="container">
+        
         <div class="page-header" style="cursor: pointer;" data-toggle="collapse" data-target="#Profile">
-            <h1>Welcome <small>Start by searching for something above</small></h1>
+            <h1 id="page_title">Welcome <small>Start by searching for something above</small></h1>
         </div>
         <div id="Profile" class="panel-collapse collapse">
             <div class="row">
                 <div class="col-lg-4">
-                    <h3>Image</h3>
-                    <img id="profile_image" src="" alt="" class="img-thumbnail"/>
+                    <h3>
+                        Image</h3>
+                    <img id="profile_image" src="" alt="" class="img-thumbnail" />
                 </div>
                 <div class="col-lg-4">
-                    <h3>Other Info</h3>
-                    <h5>Date <small>sunchips</small></h5>
-                    <h6 id="page_date">Time Lines <small> Important dates</small></h6>
-                    
+                    <h3>
+                        Other Info</h3>
+                    <h5>
+                        Date <small>sunchips</small></h5>
+                    <h6 id="page_date">
+                        Time Lines <small>Important dates</small></h6>
                 </div>
                 <div class="col-lg-4">
                     <h3>
                         Environments</h3>
                     <h5>
-                        Population <small>2013</small></h5>
+                        Population <small id="population_number">2013</small></h5>
                     <div class="progress">
                         <div id="page_population_progressbar" class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 97%;">
                             <span class="sr-only">90% Complete</span>
                         </div>
                     </div>
-                    
                 </div>
             </div>
         </div>
+
+
+
+        <div class="page-header" style="cursor: pointer;" data-toggle="collapse" data-target="#Description">
+            <h2 id="description_header">Description</h2>
+        </div>
+        <div id="Description" class="panel-collapse">
+            
+        </div>
+
+
+
         <br />
         <br />
     </div>
